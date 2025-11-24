@@ -67,7 +67,11 @@ function Login() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <button type="submit" className="btn-primary" disabled={loading}>
+          <button
+            type="submit"
+            className="btn-primary full-width"
+            disabled={loading}
+          >
             {loading ? "Please wait..." : "Login"}
           </button>
         </form>

@@ -11,6 +11,25 @@ def is_club_exec(user_uid, club_uid):
     return ClubMember.query.filter_by(user_uid=user_uid, club_uid=club_uid, type='exec').first() is not None
 
 
+@bp.route('/', methods=['GET'])
+def list_clubs():
+    """Get all clubs"""
+    clubs = Club.query.all()
+    result = []
+    for club in clubs:
+        member_count = ClubMember.query.filter_by(club_uid=club.uid).count()
+        result.append({
+            'uid': club.uid,
+            'name': club.name,
+            'description': club.description,
+            'budget': str(club.budget),
+            'social_links': club.social_links,
+            'status': club.status,
+            'member_count': member_count
+        })
+    return jsonify(result), 200
+
+
 @bp.route('/', methods=['POST'])
 @jwt_required()
 def create_club():
@@ -87,7 +106,7 @@ def club_members(club_uid):
     out = []
     for m in members:
         user = User.query.get(m.user_uid)
-        out.append({'user_uid': m.user_uid, 'name': user.name if user else None, 'type': m.type, 'role': m.role})
+        out.append({'user_uid': m.user_uid, 'user_name': user.name if user else None, 'type': m.type, 'role': m.role})
     return jsonify(out), 200
 
 

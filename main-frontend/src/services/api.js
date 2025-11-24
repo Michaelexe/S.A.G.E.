@@ -1,15 +1,15 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://127.0.0.1:5000";
+const BASE_URL = "http://127.0.0.1:5000";
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Add token to requests
+// Add JWT token to requests
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -27,22 +27,25 @@ export const authAPI = {
 
 // Club endpoints
 export const clubAPI = {
-  create: (data) => api.post("/clubs/", data),
+  getAll: () => api.get("/clubs/"),
   get: (uid) => api.get(`/clubs/${uid}`),
-  update: (uid, data) => api.put(`/clubs/${uid}`, data),
   join: (uid) => api.post(`/clubs/${uid}/join`),
   getMembers: (uid) => api.get(`/clubs/${uid}/members`),
-  getMyClubs: () => api.get("/clubs/my-clubs"),
 };
 
 // Event endpoints
 export const eventAPI = {
-  create: (data) => api.post("/events/", data),
+  getAll: () => api.get("/events/"),
   get: (uid) => api.get(`/events/${uid}`),
-  update: (uid, data) => api.put(`/events/${uid}`, data),
   join: (uid) => api.post(`/events/${uid}/join`),
   getClubEvents: (clubUid) => api.get(`/events/club/${clubUid}`),
-  delete: (uid) => api.delete(`/events/${uid}`),
+};
+
+// Comment endpoints
+export const commentAPI = {
+  getEventComments: (eventUid) => api.get(`/comments/event/${eventUid}`),
+  create: (data) => api.post("/comments/", data),
+  reply: (commentUid, data) => api.post(`/comments/${commentUid}/reply`, data),
 };
 
 export default api;

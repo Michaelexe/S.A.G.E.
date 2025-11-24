@@ -36,7 +36,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/dashboard" className="navbar-brand">
-          🎓 Club Portal
+          OTU Clubs
         </Link>
 
         <div className="navbar-center">
@@ -46,7 +46,6 @@ function Navbar() {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               disabled={loading}
             >
-              <span className="club-icon">🏢</span>
               <span className="club-name">
                 {loading
                   ? "Loading..."

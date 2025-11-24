@@ -44,11 +44,13 @@ def create_app():
     from .routes import clubs as clubs_bp
     from .routes import events as events_bp
     from .routes import calendar as calendar_bp
+    from .routes import comments as comments_bp
 
     app.register_blueprint(auth_bp.bp)
     app.register_blueprint(clubs_bp.bp)
     app.register_blueprint(events_bp.bp)
     app.register_blueprint(calendar_bp.bp)
+    app.register_blueprint(comments_bp.bp)
 
     # Import models so they are registered with SQLAlchemy
     with app.app_context():

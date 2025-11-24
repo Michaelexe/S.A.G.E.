@@ -42,44 +42,16 @@ function Dashboard() {
       if (!selectedClub) return;
 
       try {
-        const [clubResponse, membersResponse] = await Promise.all([
-          clubAPI.get(selectedClub.uid),
-          clubAPI.getMembers(selectedClub.uid),
-        ]);
+        const [clubResponse, membersResponse, eventsResponse] =
+          await Promise.all([
+            clubAPI.get(selectedClub.uid),
+            clubAPI.getMembers(selectedClub.uid),
+            eventAPI.getClubEvents(selectedClub.uid),
+          ]);
 
         setClubData(clubResponse.data);
         setMembers(membersResponse.data);
-
-        // Mock events for now - you'll need to add an endpoint to get club events
-        setEvents([
-          {
-            uid: "1",
-            name: "Annual Tech Conference",
-            start_datetime: "2025-12-15T10:00:00",
-            location: "Main Auditorium",
-            description:
-              "Join us for our biggest tech conference of the year featuring keynote speakers, workshops, and networking opportunities with industry leaders.",
-            participant_count: 156,
-          },
-          {
-            uid: "2",
-            name: "Workshop: Web Development",
-            start_datetime: "2025-12-20T14:00:00",
-            location: "Computer Lab A",
-            description:
-              "Learn modern web development with React, Node.js, and best practices for building scalable applications from scratch.",
-            participant_count: 45,
-          },
-          {
-            uid: "3",
-            name: "Networking Mixer",
-            start_datetime: "2025-12-22T18:00:00",
-            location: "Student Center",
-            description:
-              "Connect with fellow club members and industry professionals in a casual networking environment with refreshments provided.",
-            participant_count: 89,
-          },
-        ]);
+        setEvents(eventsResponse.data);
       } catch (err) {
         console.error("Failed to fetch club details:", err);
       }

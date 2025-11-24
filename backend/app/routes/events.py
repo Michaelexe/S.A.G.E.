@@ -11,6 +11,34 @@ def is_club_exec(user_uid, club_uid):
     return ClubMember.query.filter_by(user_uid=user_uid, club_uid=club_uid, type='exec').first() is not None
 
 
+@bp.route('/', methods=['GET'])
+def get_all_events():
+    events = Event.query.order_by(Event.start_datetime.desc()).all()
+    result = []
+    for event in events:
+        participant_count = EventParticipant.query.filter_by(event_uid=event.uid).count()
+        club_name = None
+        if event.club_uid:
+            club = Club.query.get(event.club_uid)
+            club_name = club.name if club else None
+        
+        result.append({
+            'uid': event.uid,
+            'name': event.name,
+            'description': event.description,
+            'start_datetime': event.start_datetime.isoformat() if event.start_datetime else None,
+            'end_datetime': event.end_datetime.isoformat() if event.end_datetime else None,
+            'location': event.location,
+            'limit': event.limit,
+            'type': event.type,
+            'status': event.status,
+            'club_uid': event.club_uid,
+            'club_name': club_name,
+            'participant_count': participant_count
+        })
+    return jsonify(result), 200
+
+
 @bp.route('/', methods=['POST'])
 @jwt_required()
 def create_event():
@@ -107,3 +135,52 @@ def join_event(event_uid):
     db.session.add(participant)
     db.session.commit()
     return jsonify({'msg': 'joined'}), 201
+
+
+@bp.route('/<event_uid>', methods=['DELETE'])
+@jwt_required()
+def delete_event(event_uid):
+    uid = get_jwt_identity()
+    event = Event.query.get(event_uid)
+    if not event:
+        return jsonify({'msg': 'event not found'}), 404
+
+    if event.club_uid and not is_club_exec(uid, event.club_uid):
+        return jsonify({'msg': 'only club execs can delete this event'}), 403
+
+    # Delete all participants first (cascade will handle this if configured, but being explicit)
+    EventParticipant.query.filter_by(event_uid=event_uid).delete()
+    db.session.delete(event)
+    db.session.commit()
+    return jsonify({'msg': 'deleted'}), 200
+
+
+@bp.route('/club/<club_uid>', methods=['GET'])
+def get_club_events(club_uid):
+    """Get all events for a specific club"""
+    club = Club.query.get(club_uid)
+    if not club:
+        return jsonify({'msg': 'club not found'}), 404
+    
+    events = Event.query.filter_by(club_uid=club_uid).order_by(Event.start_datetime.desc()).all()
+    
+    result = []
+    for event in events:
+        # Count participants
+        participant_count = EventParticipant.query.filter_by(event_uid=event.uid).count()
+        
+        result.append({
+            'uid': event.uid,
+            'name': event.name,
+            'start_datetime': event.start_datetime.isoformat(),
+            'end_datetime': event.end_datetime.isoformat() if event.end_datetime else None,
+            'description': event.description,
+            'location': event.location,
+            'limit': event.limit,
+            'type': event.type,
+            'status': event.status,
+            'club_uid': event.club_uid,
+            'participant_count': participant_count
+        })
+    
+    return jsonify(result), 200

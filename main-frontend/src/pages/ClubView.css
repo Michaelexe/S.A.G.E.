@@ -1,0 +1,251 @@
+.club-view-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 32px;
+}
+
+.club-header-section {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 32px;
+  margin-bottom: 48px;
+}
+
+.club-info-card {
+  background-color: var(--surface);
+  border: 1px solid rgba(0, 161, 255, 0.3);
+  border-radius: 16px;
+  padding: 40px;
+}
+
+.club-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.club-title-row h1 {
+  font-size: 36px;
+  color: var(--on-background);
+  margin: 0;
+}
+
+.club-status-badge {
+  background-color: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border: 1px solid #22c55e;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.club-description {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.club-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.social-links {
+  margin-bottom: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 161, 255, 0.2);
+}
+
+.social-links h3 {
+  font-size: 16px;
+  color: var(--on-background);
+  margin-bottom: 16px;
+}
+
+.social-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.social-link {
+  background-color: rgba(0, 161, 255, 0.1);
+  border: 1px solid rgba(0, 161, 255, 0.3);
+  color: var(--accent);
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  background-color: rgba(0, 161, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn-join-club {
+  width: 100%;
+  background-color: var(--accent);
+  color: var(--background);
+  border: none;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-join-club:hover:not(:disabled) {
+  background-color: #0088cc;
+  transform: translateY(-2px);
+}
+
+.btn-join-club:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.events-section h2,
+.members-section h2 {
+  font-size: 24px;
+  color: var(--on-background);
+  margin-bottom: 24px;
+}
+
+.events-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.event-card {
+  background-color: var(--surface);
+  border: 1px solid rgba(0, 161, 255, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.event-card:hover {
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.event-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.event-card-header h3 {
+  font-size: 18px;
+  color: var(--on-background);
+  margin: 0;
+}
+
+.event-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.event-info {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.member-group h3 {
+  font-size: 16px;
+  color: var(--accent);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.member-item {
+  background-color: rgba(0, 161, 255, 0.05);
+  border: 1px solid rgba(0, 161, 255, 0.2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.member-name {
+  font-size: 14px;
+  color: var(--on-background);
+  font-weight: 500;
+}
+
+.member-role {
+  font-size: 12px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.error-state {
+  text-align: center;
+  padding: 60px;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .club-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .club-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .club-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}

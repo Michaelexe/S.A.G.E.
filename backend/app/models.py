@@ -131,3 +131,22 @@ class TimeSlot(db.Model):
 	def __repr__(self):
 		return f"<TimeSlot {self.course_code} {self.day_of_week} {self.start_time}-{self.end_time}>"
 
+
+class Comment(db.Model):
+	"""Comments on events for discussions"""
+	__tablename__ = 'comments'
+	uid = db.Column(db.String(36), primary_key=True, default=generate_uuid)
+	event_uid = db.Column(db.String(36), db.ForeignKey('events.uid'), nullable=False, index=True)
+	user_uid = db.Column(db.String(36), db.ForeignKey('users.uid'), nullable=False)
+	parent_uid = db.Column(db.String(36), db.ForeignKey('comments.uid'), nullable=True)  # For replies
+	content = db.Column(db.Text, nullable=False)
+	created_at = db.Column(db.DateTime, default=datetime.utcnow)
+	
+	# Relationships
+	user = db.relationship('User', backref=db.backref('comments', cascade='all, delete-orphan'))
+	event = db.relationship('Event', backref=db.backref('comments', cascade='all, delete-orphan'))
+	# Self-referential relationship for replies
+	replies = db.relationship('Comment', backref=db.backref('parent', remote_side=[uid]), cascade='all, delete-orphan')
+
+	def __repr__(self):
+		return f"<Comment {self.uid} by {self.user_uid} on {self.event_uid}>"

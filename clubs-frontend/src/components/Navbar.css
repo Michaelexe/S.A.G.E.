@@ -26,7 +26,8 @@
 }
 
 .navbar-brand {
-  font-size: 20px;
+  font-size: 25px;
+  font-style: italic;
   font-weight: 700;
   color: var(--on-background);
   text-decoration: none;
@@ -85,6 +86,7 @@
   width: 100%;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   padding: 8px 16px;
   background-color: rgba(255, 255, 255, 0.05);
@@ -111,8 +113,10 @@
   font-size: 18px;
 }
 
-.club-name {
+.club-selector-button .club-name {
   flex: 1;
+  font-size: 25px;
+  margin-bottom: 0px;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
