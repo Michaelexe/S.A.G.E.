@@ -16,7 +16,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-content">
         <Link to={user ? "/home" : "/"} className="navbar-brand">
-          🎓 Campus Clubs
+          S.A.G.E.
         </Link>
 
         <div className="navbar-links">

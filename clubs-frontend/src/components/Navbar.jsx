@@ -36,7 +36,7 @@ function Navbar() {
     <nav className="navbar">
       <div className="navbar-container">
         <Link to="/dashboard" className="navbar-brand">
-          OTU Clubs
+          S.A.G.E.
         </Link>
 
         <div className="navbar-center">

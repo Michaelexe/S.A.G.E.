@@ -10,7 +10,7 @@ function Landing() {
       <div className="landing-content">
         <div className="hero-section">
           <h1 className="hero-title">
-            Welcome to <span className="accent-text">Campus Clubs</span>
+            Welcome to <span className="accent-text">S.A.G.E.</span>
           </h1>
           <p className="hero-subtitle">
             Discover, Join, and Engage with Student Organizations
@@ -31,7 +31,7 @@ function Landing() {
 
         <div className="features-section">
           <div className="feature-card">
-            <div className="feature-icon">🎯</div>
+            {/* <div className="feature-icon">🎯</div> */}
             <h3>Discover Clubs</h3>
             <p>
               Explore a wide variety of student organizations tailored to your
@@ -39,7 +39,7 @@ function Landing() {
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">📅</div>
+            {/* <div className="feature-icon">📅</div> */}
             <h3>Join Events</h3>
             <p>
               Stay updated with upcoming events and participate in activities
@@ -47,7 +47,7 @@ function Landing() {
             </p>
           </div>
           <div className="feature-card">
-            <div className="feature-icon">💬</div>
+            {/* <div className="feature-icon">💬</div> */}
             <h3>Engage & Discuss</h3>
             <p>
               Connect with fellow students through event discussions and build

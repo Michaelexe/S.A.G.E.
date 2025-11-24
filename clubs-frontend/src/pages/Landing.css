@@ -133,6 +133,9 @@
   font-size: 14px;
   color: rgba(255, 255, 255, 0.5);
 }
+.accent-text {
+  color: var(--accent);
+}
 
 @media (max-width: 768px) {
   .landing-header h1 {
