@@ -1,6 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-const PALETTES = ["system", "dark", "light", "ocean", "sunset"];
+const PALETTES = [
+  "system",
+  "dark",
+  "light",
+  "ocean",
+  "sunset",
+  "cherry-blossom",
+];
 
 const ThemeContext = createContext({
   palette: "dark",

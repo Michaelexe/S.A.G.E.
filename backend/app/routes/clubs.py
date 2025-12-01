@@ -215,3 +215,79 @@ def get_my_clubs():
             })
     
     return jsonify(clubs), 200
+
+
+@bp.route('/<club_uid>/execs', methods=['POST'])
+@jwt_required()
+def add_exec(club_uid):
+    """Add a new executive to the club by email"""
+    uid = get_jwt_identity()
+    
+    # Check if requester is an exec
+    if not is_club_exec(uid, club_uid):
+        return jsonify({'msg': 'only club execs can add executives'}), 403
+    
+    club = Club.query.get(club_uid)
+    if not club:
+        return jsonify({'msg': 'club not found'}), 404
+    
+    data = request.get_json() or {}
+    email = data.get('email')
+    role = data.get('role', 'executive')
+    
+    if not email:
+        return jsonify({'msg': 'email is required'}), 400
+    
+    # Find user by email
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({'msg': 'user not found with that email'}), 404
+    
+    # Check if already a member
+    existing = ClubMember.query.filter_by(user_uid=user.uid, club_uid=club_uid).first()
+    if existing:
+        if existing.type == 'exec':
+            return jsonify({'msg': 'user is already an executive'}), 400
+        # Promote member to exec
+        existing.type = 'exec'
+        existing.role = role
+        db.session.commit()
+        return jsonify({'msg': 'member promoted to executive', 'user_uid': user.uid, 'user_name': user.name, 'role': role}), 200
+    
+    # Add as new exec
+    member = ClubMember(user_uid=user.uid, club_uid=club_uid, type='exec', role=role, joined_at=datetime.utcnow())
+    db.session.add(member)
+    db.session.commit()
+    
+    return jsonify({'msg': 'executive added', 'user_uid': user.uid, 'user_name': user.name, 'role': role}), 201
+
+
+@bp.route('/<club_uid>/execs/<user_uid>', methods=['DELETE'])
+@jwt_required()
+def remove_exec(club_uid, user_uid):
+    """Remove an executive (demote to member or remove entirely)"""
+    uid = get_jwt_identity()
+    
+    # Check if requester is an exec
+    if not is_club_exec(uid, club_uid):
+        return jsonify({'msg': 'only club execs can remove executives'}), 403
+    
+    club = Club.query.get(club_uid)
+    if not club:
+        return jsonify({'msg': 'club not found'}), 404
+    
+    # Find the exec membership
+    membership = ClubMember.query.filter_by(user_uid=user_uid, club_uid=club_uid, type='exec').first()
+    if not membership:
+        return jsonify({'msg': 'user is not an executive of this club'}), 404
+    
+    # Prevent removing founder
+    if membership.role == 'founder':
+        return jsonify({'msg': 'cannot remove founder'}), 403
+    
+    # Demote to regular member
+    membership.type = 'member'
+    membership.role = None
+    db.session.commit()
+    
+    return jsonify({'msg': 'executive removed'}), 200

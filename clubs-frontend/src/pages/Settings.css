@@ -1,0 +1,240 @@
+.settings-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.settings-section {
+  background-color: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 32px;
+}
+
+.settings-section h2 {
+  color: var(--on-background);
+  font-size: 24px;
+  margin: 0 0 8px 0;
+}
+
+.settings-section h3 {
+  color: var(--on-background);
+  font-size: 18px;
+  margin: 24px 0 16px 0;
+}
+
+.settings-section h3:first-of-type {
+  margin-top: 0;
+}
+
+.settings-section > p {
+  color: var(--muted);
+  margin: 0 0 20px 0;
+}
+
+.palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.club-management-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.management-left {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.management-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.palette-button {
+  background-color: var(--background);
+  border: 1px solid var(--muted);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.palette-button:hover {
+  background-color: color-mix(in srgb, var(--accent) 75%, black 25%);
+  border-color: var(--accent);
+}
+
+.palette-button.active {
+  border: 2px solid var(--accent);
+  background-color: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.palette-name {
+  color: var(--on-background);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.palette-id {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.founder-section,
+.execs-section,
+.add-exec-section {
+  margin-top: 0;
+}
+
+.execs-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.execs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: calc(3 * (16px + 16px + 1em + 4px + 12px + 2px));
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.execs-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.execs-list::-webkit-scrollbar-track {
+  background: var(--background);
+  border-radius: 4px;
+}
+
+.execs-list::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 4px;
+}
+
+.execs-list::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--accent) 75%, black 25%);
+}
+
+.founder-item {
+  background-color: color-mix(in srgb, var(--accent) 15%, transparent);
+  border: 1px solid var(--accent);
+}
+
+.exec-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--background);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.exec-item:hover {
+  background-color: color-mix(in srgb, var(--surface) 95%, var(--accent) 5%);
+}
+
+.exec-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.exec-name {
+  color: var(--on-background);
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.exec-role {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.btn-remove-exec {
+  background-color: var(--danger);
+  color: white;
+  border: 1px solid var(--danger);
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-remove-exec:hover {
+  background-color: color-mix(in srgb, var(--danger) 75%, black 25%);
+}
+
+.add-exec-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.input-exec-email,
+.input-exec-role {
+  background-color: var(--background);
+  color: var(--on-background);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.input-exec-email:focus,
+.input-exec-role:focus {
+  outline: none;
+  border-color: var(--accent);
+  background-color: color-mix(in srgb, var(--accent) 5%, var(--background));
+}
+
+.input-exec-email::placeholder,
+.input-exec-role::placeholder {
+  color: var(--muted);
+}
+
+.btn-add-exec {
+  background-color: var(--accent);
+  color: var(--on-accent);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-add-exec:hover {
+  background-color: color-mix(in srgb, var(--accent) 75%, black 25%);
+}
+
+.btn-add-exec:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.empty-state {
+  color: var(--muted);
+  font-style: italic;
+  margin: 16px 0;
+}

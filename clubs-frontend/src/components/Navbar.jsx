@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useClub } from "../contexts/ClubContext";
 import "./Navbar.css";
@@ -8,6 +8,7 @@ function Navbar() {
   const { logout } = useAuth();
   const { selectedClub, myClubs, selectClub, loading } = useClub();
   const navigate = useNavigate();
+  const location = useLocation();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -110,16 +111,37 @@ function Navbar() {
         </div>
 
         <div className="navbar-links">
-          <Link to="/dashboard" className="nav-link">
+          <Link
+            to="/dashboard"
+            className={`nav-link ${
+              location.pathname === "/dashboard" ? "active" : ""
+            }`}
+          >
             Dashboard
           </Link>
-          <Link to="/clubs" className="nav-link">
+          <Link
+            to="/clubs"
+            className={`nav-link ${
+              location.pathname === "/clubs" ? "active" : ""
+            }`}
+          >
             Clubs
           </Link>
-          <Link to="/events" className="nav-link">
+          <Link
+            to="/events"
+            className={`nav-link ${
+              location.pathname === "/events" ? "active" : ""
+            }`}
+          >
             Events
           </Link>
-          <Link to="/settings" className="nav-link" aria-label="Settings">
+          <Link
+            to="/settings"
+            className={`nav-link ${
+              location.pathname === "/settings" ? "active" : ""
+            }`}
+            aria-label="Settings"
+          >
             Settings
           </Link>
           <button onClick={handleLogout} className="btn-logout">

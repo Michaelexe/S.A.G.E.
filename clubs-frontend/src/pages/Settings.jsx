@@ -1,50 +1,223 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTheme, PALETTES } from "../contexts/ThemeContext";
+import { useClub } from "../contexts/ClubContext";
 import Navbar from "../components/Navbar";
+import axios from "axios";
+import "./Settings.css";
 
 const LABELS = {
+  system: "System",
   dark: "Dark",
   light: "Light",
   ocean: "Ocean",
   sunset: "Sunset",
+  "cherry-blossom": "Cherry Blossom",
 };
 
 export default function Settings() {
   const { palette, setPalette } = useTheme();
+  const { selectedClub } = useClub();
+  const [members, setMembers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [newExecEmail, setNewExecEmail] = useState("");
+  const [newExecRole, setNewExecRole] = useState("");
+  const [adding, setAdding] = useState(false);
+
+  useEffect(() => {
+    if (selectedClub) {
+      fetchMembers();
+    }
+  }, [selectedClub]);
+
+  const fetchMembers = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/clubs/${selectedClub.uid}/members`
+      );
+      setMembers(response.data || []);
+    } catch (err) {
+      console.error("Failed to fetch members:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAddExec = async (e) => {
+    e.preventDefault();
+
+    // Validate required fields
+    if (!newExecEmail.trim()) {
+      alert("Email address is required");
+      return;
+    }
+
+    if (!newExecRole.trim()) {
+      alert("Role is required");
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newExecEmail.trim())) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
+    setAdding(true);
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        `http://localhost:5000/clubs/${selectedClub.uid}/execs`,
+        {
+          email: newExecEmail.trim(),
+          role: newExecRole.trim(),
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      alert("Executive added successfully");
+      setNewExecEmail("");
+      setNewExecRole("");
+      fetchMembers();
+    } catch (err) {
+      alert(err.response?.data?.msg || "Failed to add executive");
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  const handleRemoveExec = async (userUid) => {
+    if (!confirm("Are you sure you want to remove this executive?")) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await axios.delete(
+        `http://localhost:5000/clubs/${selectedClub.uid}/execs/${userUid}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      alert("Executive removed successfully");
+      fetchMembers();
+    } catch (err) {
+      alert(err.response?.data?.msg || "Failed to remove executive");
+    }
+  };
+
+  const execs = members.filter((m) => m.type === "exec");
+  const founder = execs.find((m) => m.role === "founder");
 
   return (
     <div className="page-container">
       <Navbar />
-      <div className="content-wrapper" style={{ padding: 20 }}>
-        <h2>Appearance</h2>
-        <p>Choose a color palette for the app.</p>
-        <div style={{ display: "flex", gap: 12, marginTop: 12 }}>
-          {PALETTES.map((p) => (
-            <button
-              key={p}
-              onClick={() => setPalette(p)}
-              style={{
-                padding: 12,
-                borderRadius: 8,
-                border:
-                  palette === p
-                    ? "2px solid var(--accent)"
-                    : "1px solid var(--muted)",
-                background: "var(--surface)",
-                color: "var(--on-background)",
-                cursor: "pointer",
-                minWidth: 120,
-              }}
-            >
-              <div style={{ fontWeight: 700 }}>{LABELS[p]}</div>
-              <div
-                style={{ fontSize: 12, marginTop: 6, color: "var(--muted)" }}
+      <div className="settings-container">
+        <section className="settings-section">
+          <h2>Appearance</h2>
+          <p>Choose a color palette for the app.</p>
+          <div className="palette-grid">
+            {PALETTES.map((p) => (
+              <button
+                key={p}
+                onClick={() => setPalette(p)}
+                className={`palette-button ${palette === p ? "active" : ""}`}
               >
-                {p}
+                <div className="palette-name">{LABELS[p]}</div>
+                <div className="palette-id">{p}</div>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        {selectedClub && (
+          <section className="settings-section">
+            <h2>Club Management</h2>
+
+            <div className="club-management-content">
+              <div className="management-left">
+                <div className="add-exec-section">
+                  <h3>Add Executive</h3>
+                  <form onSubmit={handleAddExec} className="add-exec-form">
+                    <input
+                      type="email"
+                      placeholder="Email address"
+                      value={newExecEmail}
+                      onChange={(e) => setNewExecEmail(e.target.value)}
+                      className="input-exec-email"
+                      required
+                    />
+                    <input
+                      type="text"
+                      placeholder="Role (e.g., President, Treasurer)"
+                      value={newExecRole}
+                      onChange={(e) => setNewExecRole(e.target.value)}
+                      className="input-exec-role"
+                      required
+                    />
+                    <button
+                      type="submit"
+                      disabled={adding}
+                      className="btn-add-exec"
+                    >
+                      {adding ? "Adding..." : "Add Executive"}
+                    </button>
+                  </form>
+                </div>
               </div>
-            </button>
-          ))}
-        </div>
+
+              <div className="management-right">
+                {founder && (
+                  <div className="founder-section">
+                    <h3>Founder</h3>
+                    <div className="exec-item founder-item">
+                      <div className="exec-info">
+                        <span className="exec-name">{founder.user_name}</span>
+                        <span className="exec-role">Founder</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="execs-section">
+                  <h3>Executives</h3>
+                  {loading ? (
+                    <p>Loading...</p>
+                  ) : (
+                    <>
+                      {execs.filter((e) => e.role !== "founder").length ===
+                      0 ? (
+                        <p className="empty-state">No other executives</p>
+                      ) : (
+                        <div className="execs-list">
+                          {execs
+                            .filter((e) => e.role !== "founder")
+                            .map((exec) => (
+                              <div key={exec.user_uid} className="exec-item">
+                                <div className="exec-info">
+                                  <span className="exec-name">
+                                    {exec.user_name}
+                                  </span>
+                                  <span className="exec-role">{exec.role}</span>
+                                </div>
+                                <button
+                                  onClick={() =>
+                                    handleRemoveExec(exec.user_uid)
+                                  }
+                                  className="btn-remove-exec"
+                                >
+                                  Remove
+                                </button>
+                              </div>
+                            ))}
+                        </div>
+                      )}
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );
