@@ -8,6 +8,7 @@ const LABELS = {
   light: "Light",
   ocean: "Ocean",
   sunset: "Sunset",
+  "cherry-blossom": "Cherry Blossom",
 };
 
 function Swatch() {
@@ -27,6 +28,9 @@ function Swatch() {
 
 export default function Settings() {
   const { palette, setPalette, cyclePalette } = useTheme();
+  const [hoverCycle, setHoverCycle] = React.useState(false);
+  const [hoveredPalette, setHoveredPalette] = React.useState(null);
+
   const handleKey = (e, p) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -38,7 +42,7 @@ export default function Settings() {
     <>
       <Navbar />
       <div style={{ padding: 20 }}>
-        <h2>Appearance</h2>
+        <h2 style={{ color: "var(--accent)" }}>Appearance</h2>
         <p>
           Choose a color palette for the app. Selection applies immediately.
         </p>
@@ -56,6 +60,8 @@ export default function Settings() {
               tabIndex={0}
               onClick={() => setPalette(p)}
               onKeyDown={(e) => handleKey(e, p)}
+              onMouseEnter={() => setHoveredPalette(p)}
+              onMouseLeave={() => setHoveredPalette(null)}
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -66,10 +72,12 @@ export default function Settings() {
                   palette === p
                     ? "2px solid var(--accent)"
                     : "1px solid var(--muted)",
-                background: "var(--surface)",
+                background:
+                  hoveredPalette === p ? "var(--card-bg)" : "var(--surface)",
                 color: "var(--on-background)",
                 cursor: "pointer",
                 minWidth: 160,
+                transition: "all 0.2s ease",
               }}
             >
               <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
@@ -86,7 +94,23 @@ export default function Settings() {
         </div>
 
         <div style={{ marginTop: 18, display: "flex", gap: 12 }}>
-          <button onClick={() => cyclePalette()} className="btn-primary">
+          <button
+            onClick={() => cyclePalette()}
+            onMouseEnter={() => setHoverCycle(true)}
+            onMouseLeave={() => setHoverCycle(false)}
+            style={{
+              background: hoverCycle ? "var(--surface)" : "var(--accent)",
+              color: hoverCycle ? "var(--on-background)" : "var(--on-accent)",
+              border: hoverCycle
+                ? "1px solid var(--muted)"
+                : "1px solid var(--accent)",
+              padding: "8px 12px",
+              borderRadius: 8,
+              cursor: "pointer",
+              fontWeight: 600,
+              transition: "all 0.2s ease",
+            }}
+          >
             Cycle Palette
           </button>
           <button

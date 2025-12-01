@@ -11,7 +11,7 @@
 
 .auth-card {
   background-color: var(--surface);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  border: 1px solid var(--accent);
   border-radius: 16px;
   padding: 48px;
 }
@@ -26,7 +26,7 @@
 
 .auth-subtitle {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--muted);
   margin-bottom: 32px;
   text-align: center;
 }
@@ -46,12 +46,12 @@
 .form-group label {
   font-size: 14px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--on-background);
 }
 
 .form-group input {
-  background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  background-color: var(--card-bg);
+  border: 1px solid var(--accent);
   border-radius: 8px;
   padding: 12px 16px;
   font-size: 14px;
@@ -62,12 +62,12 @@
 .form-group input:focus {
   outline: none;
   border-color: var(--accent);
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: var(--card-bg);
 }
 
 .btn-submit {
   background-color: var(--accent);
-  color: var(--background);
+  color: var(--on-accent);
   border: none;
   border-radius: 8px;
   padding: 14px;
@@ -79,7 +79,7 @@
 }
 
 .btn-submit:hover:not(:disabled) {
-  background-color: #0088cc;
+  background-color: color-mix(in srgb, var(--accent) 75%, black 25%);
   transform: translateY(-1px);
 }
 
@@ -91,7 +91,7 @@
 .auth-footer {
   text-align: center;
   margin-top: 24px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--muted);
   font-size: 14px;
 }
 
@@ -107,10 +107,10 @@
 
 .error-message {
   background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid #ef4444;
+  border: 1px solid var(--danger);
   border-radius: 8px;
   padding: 12px 16px;
-  color: #ef4444;
+  color: var(--danger);
   margin-bottom: 16px;
   font-size: 14px;
 }

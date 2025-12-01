@@ -132,19 +132,29 @@ function Home() {
                     className="card"
                   >
                     <div className="card-header">
+                      <div className="club-logo-section">
+                        <div className="club-logo">
+                          {club.icon_url ? (
+                            <img
+                              src={club.icon_url}
+                              alt={`${club.name} logo`}
+                            />
+                          ) : (
+                            <div className="club-logo-placeholder">
+                              {club.name.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                        </div>
+                        <span className="club-status">
+                          {club.status || "Active"}
+                        </span>
+                      </div>
                       <h3>{club.name}</h3>
-                      <span className="club-status">
-                        {club.status || "Active"}
-                      </span>
                     </div>
                     <div className="card-body">
                       {club.description && (
                         <p className="card-description">{club.description}</p>
                       )}
-                      <p className="card-info">
-                        <span className="info-icon">💰</span>
-                        Budget: ${club.budget || 0}
-                      </p>
                     </div>
                   </Link>
                 ))}

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { clubAPI, eventAPI } from "../services/api";
 import Navbar from "../components/Navbar";
 import "./ClubView.css";
 
 function ClubView() {
   const { clubUid } = useParams();
+  const navigate = useNavigate();
   const [club, setClub] = useState(null);
   const [members, setMembers] = useState([]);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [joining, setJoining] = useState(false);
-  const [joined, setJoined] = useState(false);
+  const [isMember, setIsMember] = useState(false);
 
   useEffect(() => {
     fetchClubData();
@@ -28,8 +29,20 @@ function ClubView() {
       );
 
       setClub(clubResponse.data);
-      setMembers(membersResponse.data || []);
+      const membersData = membersResponse.data || [];
+      setMembers(membersData);
       setEvents(eventsResponse.data || []);
+
+      // Check if current user is a member
+      const userData = JSON.parse(localStorage.getItem("user") || "{}");
+      const currentUserUid = userData.uid;
+      console.log("Current user UID:", currentUserUid);
+      console.log("Members:", membersData);
+      const userIsMember = membersData.some(
+        (member) => member.user_uid === currentUserUid
+      );
+      console.log("Is member:", userIsMember);
+      setIsMember(userIsMember);
     } catch (err) {
       console.error("Failed to fetch club data:", err);
     } finally {
@@ -37,16 +50,24 @@ function ClubView() {
     }
   };
 
-  const handleJoin = async () => {
+  const handleJoinLeave = async () => {
     setJoining(true);
     try {
-      await clubAPI.join(clubUid);
-      setJoined(true);
+      if (isMember) {
+        await clubAPI.leave(clubUid);
+        setIsMember(false);
+      } else {
+        await clubAPI.join(clubUid);
+        setIsMember(true);
+      }
       // Refresh members list
       const membersResponse = await clubAPI.getMembers(clubUid);
       setMembers(membersResponse.data || []);
     } catch (err) {
-      alert(err.response?.data?.msg || "Failed to join club");
+      alert(
+        err.response?.data?.msg ||
+          `Failed to ${isMember ? "leave" : "join"} club`
+      );
     } finally {
       setJoining(false);
     }
@@ -87,17 +108,26 @@ function ClubView() {
       <Navbar />
       {/* Club banners are not used — banners are only for events. */}
       <div className="club-view-container">
+        <button onClick={() => navigate(-1)} className="btn-back">
+          ← Back
+        </button>
         <div className="club-header-section">
           <div className="club-info-card">
-            <div className="club-title-row">
-              {club.icon_url && (
-                <img
-                  src={club.icon_url}
-                  alt="club icon"
-                  className="club-icon-img"
-                />
-              )}
-              <h1>{club.name}</h1>
+            <div className="club-info-header">
+              <div className="club-header-left">
+                {club.icon_url ? (
+                  <img
+                    src={club.icon_url}
+                    alt="club icon"
+                    className="club-icon-img"
+                  />
+                ) : (
+                  <div className="club-icon-placeholder">
+                    {club.name.charAt(0).toUpperCase()}
+                  </div>
+                )}
+                <h1>{club.name}</h1>
+              </div>
               <span className="club-status-badge">
                 {club.status || "Active"}
               </span>
@@ -118,10 +148,6 @@ function ClubView() {
               <div className="stat-item">
                 <span className="stat-value">{events.length}</span>
                 <span className="stat-label">Events</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-value">${club.budget || 0}</span>
-                <span className="stat-label">Budget</span>
               </div>
             </div>
 
@@ -145,11 +171,15 @@ function ClubView() {
             )}
 
             <button
-              onClick={handleJoin}
-              disabled={joining || joined}
-              className="btn-join-club"
+              onClick={handleJoinLeave}
+              disabled={joining}
+              className={`btn-join-club ${isMember ? "joined" : ""}`}
             >
-              {joined ? "✓ Joined" : joining ? "Joining..." : "Join as Member"}
+              {isMember
+                ? "✓ Joined as Member"
+                : joining
+                ? "Joining..."
+                : "Join as Member"}
             </button>
           </div>
           <div className="members-section">

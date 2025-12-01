@@ -4,6 +4,28 @@
   padding: 40px 32px;
 }
 
+.btn-back {
+  background-color: var(--surface);
+  color: var(--on-background);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-back:hover {
+  background-color: var(--accent);
+  color: var(--on-accent);
+  transform: translateX(-2px);
+}
+
 /* Club banners removed (banners are event-only) */
 
 .club-header-section {
@@ -15,16 +37,28 @@
 
 .club-info-card {
   background-color: var(--surface);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  border: 1px solid var(--accent);
   border-radius: 16px;
   padding: 40px;
 }
 
-.club-title-row {
+.club-info-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.club-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.club-header-left h1 {
+  font-size: 36px;
+  color: var(--on-background);
+  margin: 0;
 }
 
 .club-icon-img {
@@ -32,13 +66,21 @@
   height: 64px;
   border-radius: 12px;
   object-fit: cover;
-  margin-right: 12px;
+  flex-shrink: 0;
 }
 
-.club-title-row h1 {
-  font-size: 36px;
-  color: var(--on-background);
-  margin: 0;
+.club-icon-placeholder {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 32px;
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 .club-status-badge {
@@ -53,7 +95,7 @@
 
 .club-description {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--on-background);
   line-height: 1.6;
   margin-bottom: 32px;
 }
@@ -79,7 +121,7 @@
 
 .stat-label {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--on-background);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -87,7 +129,7 @@
 .social-links {
   margin-bottom: 32px;
   padding-top: 24px;
-  border-top: 1px solid rgba(0, 161, 255, 0.2);
+  border-top: 1px solid var(--accent);
 }
 
 .social-links h3 {
@@ -103,9 +145,9 @@
 }
 
 .social-link {
-  background-color: rgba(0, 161, 255, 0.1);
-  border: 1px solid rgba(0, 161, 255, 0.3);
-  color: var(--accent);
+  background-color: var(--surface);
+  border: 1px solid var(--accent);
+  color: var(--on-background);
   padding: 8px 16px;
   border-radius: 8px;
   text-decoration: none;
@@ -115,14 +157,15 @@
 }
 
 .social-link:hover {
-  background-color: rgba(0, 161, 255, 0.2);
+  background-color: var(--accent);
+  color: var(--on-accent);
   transform: translateY(-2px);
 }
 
 .btn-join-club {
   width: 100%;
   background-color: var(--accent);
-  color: var(--background);
+  color: var(--on-accent);
   border: none;
   border-radius: 12px;
   padding: 16px;
@@ -132,8 +175,12 @@
   transition: all 0.3s ease;
 }
 
+.btn-join-club.joined {
+  background-color: color-mix(in srgb, var(--accent) 50%, black 50%);
+}
+
 .btn-join-club:hover:not(:disabled) {
-  background-color: #0088cc;
+  background-color: color-mix(in srgb, var(--accent) 75%, black 25%);
   transform: translateY(-2px);
 }
 
@@ -156,7 +203,7 @@
 
 .event-card {
   background-color: var(--surface);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  border: 1px solid var(--accent);
   border-radius: 12px;
   padding: 20px;
   text-decoration: none;
@@ -209,7 +256,7 @@
 
 .event-info {
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--on-background);
   margin: 0;
 }
 
@@ -228,13 +275,25 @@
 }
 
 .member-item {
-  background-color: rgba(0, 161, 255, 0.05);
-  border: 1px solid rgba(0, 161, 255, 0.2);
+  background-color: var(--surface);
+  border: 1px solid var(--accent);
   border-radius: 8px;
   padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.member-item:hover {
+  background-color: var(--accent);
+  border-color: var(--accent);
+}
+
+.member-item:hover .member-name,
+.member-item:hover .member-role {
+  color: var(--on-accent);
 }
 
 .member-name {

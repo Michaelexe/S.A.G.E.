@@ -104,6 +104,28 @@ def join_club(club_uid):
     return jsonify({'msg': 'joined'}), 201
 
 
+@bp.route('/<club_uid>/leave', methods=['POST'])
+@jwt_required()
+def leave_club(club_uid):
+    uid = get_jwt_identity()
+    club = Club.query.get(club_uid)
+    if not club:
+        return jsonify({'msg': 'club not found'}), 404
+
+    # find membership
+    membership = ClubMember.query.filter_by(user_uid=uid, club_uid=club_uid).first()
+    if not membership:
+        return jsonify({'msg': 'not a member'}), 400
+
+    # prevent execs from leaving (they should transfer ownership first)
+    if membership.type == 'exec':
+        return jsonify({'msg': 'executives cannot leave. please transfer ownership first'}), 403
+
+    db.session.delete(membership)
+    db.session.commit()
+    return jsonify({'msg': 'left club'}), 200
+
+
 @bp.route('/<club_uid>/members', methods=['GET'])
 def club_members(club_uid):
     members = ClubMember.query.filter_by(club_uid=club_uid).all()

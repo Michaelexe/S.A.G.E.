@@ -23,7 +23,7 @@
 }
 
 .navbar-brand:hover {
-  color: #0088cc;
+  opacity: 0.8;
 }
 
 .navbar-links {
@@ -33,7 +33,7 @@
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--on-background);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
@@ -56,8 +56,8 @@
 
 .btn-logout {
   background-color: rgba(239, 68, 68, 0.2);
-  color: #ef4444;
-  border: 1px solid #ef4444;
+  color: var(--danger);
+  border: 1px solid var(--danger);
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -72,7 +72,7 @@
 
 .btn-register {
   background-color: var(--accent);
-  color: var(--background);
+  color: var(--on-accent);
   padding: 8px 20px;
   border-radius: 8px;
   text-decoration: none;
@@ -81,6 +81,6 @@
 }
 
 .btn-register:hover {
-  background-color: #0088cc;
+  background-color: color-mix(in srgb, var(--accent) 75%, black 25%);
   transform: translateY(-1px);
 }

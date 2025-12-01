@@ -34,6 +34,7 @@ export const clubAPI = {
   getAll: () => api.get("/clubs/"),
   get: (uid) => api.get(`/clubs/${uid}`),
   join: (uid) => api.post(`/clubs/${uid}/join`),
+  leave: (uid) => api.post(`/clubs/${uid}/leave`),
   getMembers: (uid) => api.get(`/clubs/${uid}/members`),
 };
 

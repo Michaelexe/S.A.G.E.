@@ -27,7 +27,7 @@
 
 .event-details-section {
   background-color: var(--surface);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  border: 1px solid var(--accent);
   border-radius: 16px;
   padding: 40px;
   margin-bottom: 32px;
@@ -63,7 +63,7 @@
 }
 
 .btn-join-event:hover:not(:disabled) {
-  background-color: #0088cc;
+  background-color: color-mix(in srgb, var(--accent) 75%, black 25%);
   transform: translateY(-2px);
 }
 
@@ -83,8 +83,8 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  background-color: rgba(0, 161, 255, 0.05);
-  border: 1px solid rgba(0, 161, 255, 0.2);
+  background-color: var(--background);
+  border: 1px solid var(--accent);
   border-radius: 12px;
   padding: 20px;
 }
@@ -109,7 +109,7 @@
 
 .event-description-section {
   padding-top: 24px;
-  border-top: 1px solid rgba(0, 161, 255, 0.2);
+  border-top: 1px solid var(--accent);
 }
 
 .event-description-section h2 {
@@ -120,14 +120,14 @@
 
 .event-description-section p {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--on-background);
   line-height: 1.8;
 }
 
 /* Comments Section */
 .comments-section {
   background-color: var(--surface);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  border: 1px solid var(--accent);
   border-radius: 16px;
   padding: 40px;
 }
@@ -145,7 +145,7 @@
 .comment-form textarea {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  border: 1px solid var(--accent);
   border-radius: 12px;
   padding: 16px;
   font-size: 14px;
@@ -173,7 +173,7 @@
 }
 
 .btn-submit-comment:hover:not(:disabled) {
-  background-color: #0088cc;
+  background-color: color-mix(in srgb, var(--accent) 75%, black 25%);
   transform: translateY(-1px);
 }
 
@@ -183,12 +183,12 @@
 }
 
 .login-prompt {
-  background-color: rgba(0, 161, 255, 0.1);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  background-color: var(--surface);
+  border: 1px solid var(--accent);
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--on-background);
   margin-bottom: 32px;
 }
 
@@ -199,8 +199,8 @@
 }
 
 .comment-item {
-  background-color: rgba(0, 161, 255, 0.03);
-  border: 1px solid rgba(0, 161, 255, 0.2);
+  background-color: var(--background);
+  border: 1px solid var(--accent);
   border-radius: 12px;
   padding: 16px;
 }
@@ -255,7 +255,7 @@
 .reply-form textarea {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(0, 161, 255, 0.3);
+  border: 1px solid var(--accent);
   border-radius: 8px;
   padding: 12px;
   font-size: 13px;
@@ -288,7 +288,7 @@
 }
 
 .btn-submit-reply:hover:not(:disabled) {
-  background-color: #0088cc;
+  background-color: color-mix(in srgb, var(--accent) 75%, black 25%);
 }
 
 .btn-submit-reply:disabled {
