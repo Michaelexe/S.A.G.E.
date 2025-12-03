@@ -195,7 +195,6 @@ Diagnostics:
 
 ## Code Quality
 
-- Use `black` + `flake8` for Python.
 - Use ESLint + Prettier for React.
 
 ## Live Demo
