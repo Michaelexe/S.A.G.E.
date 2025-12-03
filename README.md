@@ -127,7 +127,7 @@ npm run dev
 ## UML Diagrams
 
 ### Class Diagram
-
+```puml
 @startuml
 ' Core backend domain model for S.A.G.E.
 
@@ -181,10 +181,11 @@ ClubMember o-- User : belongs_to
 ClubMember o-- Club : belongs_to
 
 @enduml
-
+```
 
 ### Architecture Diagram
 
+```puml
 @startuml
 ' High-level architecture for S.A.G.E.
 
@@ -216,6 +217,7 @@ API --> "Cloudinary (media)" : Upload/Fetch media
 
 @enduml
 
+```
 
 ## PageSpeed Insights
 
